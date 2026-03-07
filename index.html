@@ -183,17 +183,46 @@ let idioma="ES";
 let tiradaActual=[];
 
 const nombresES=[
+const nombresES = [
+
 "El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante",
 "Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna",
 "La Justicia","El Colgado","La Muerte","La Templanza","El Diablo","La Torre",
-"La Estrella","La Luna","El Sol","El Juicio","El Mundo"
+"La Estrella","La Luna","El Sol","El Juicio","El Mundo",
+
+"As de Bastos","Dos de Bastos","Tres de Bastos","Cuatro de Bastos","Cinco de Bastos","Seis de Bastos","Siete de Bastos","Ocho de Bastos","Nueve de Bastos","Diez de Bastos",
+"Sota de Bastos","Caballero de Bastos","Reina de Bastos","Rey de Bastos",
+
+"As de Copas","Dos de Copas","Tres de Copas","Cuatro de Copas","Cinco de Copas","Seis de Copas","Siete de Copas","Ocho de Copas","Nueve de Copas","Diez de Copas",
+"Sota de Copas","Caballero de Copas","Reina de Copas","Rey de Copas",
+
+"As de Espadas","Dos de Espadas","Tres de Espadas","Cuatro de Espadas","Cinco de Espadas","Seis de Espadas","Siete de Espadas","Ocho de Espadas","Nueve de Espadas","Diez de Espadas",
+"Sota de Espadas","Caballero de Espadas","Reina de Espadas","Rey de Espadas",
+
+"As de Oros","Dos de Oros","Tres de Oros","Cuatro de Oros","Cinco de Oros","Seis de Oros","Siete de Oros","Ocho de Oros","Nueve de Oros","Diez de Oros",
+"Sota de Oros","Caballero de Oros","Reina de Oros","Rey de Oros"
+
 ];
 
-const nombresEN=[
+const nombresEN = [
+
 "The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant",
 "The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune",
 "Justice","The Hanged Man","Death","Temperance","The Devil","The Tower",
-"The Star","The Moon","The Sun","Judgement","The World"
+"The Star","The Moon","The Sun","Judgement","The World",
+
+"Ace of Wands","Two of Wands","Three of Wands","Four of Wands","Five of Wands","Six of Wands","Seven of Wands","Eight of Wands","Nine of Wands","Ten of Wands",
+"Page of Wands","Knight of Wands","Queen of Wands","King of Wands",
+
+"Ace of Cups","Two of Cups","Three of Cups","Four of Cups","Five of Cups","Six of Cups","Seven of Cups","Eight of Cups","Nine of Cups","Ten of Cups",
+"Page of Cups","Knight of Cups","Queen of Cups","King of Cups",
+
+"Ace of Swords","Two of Swords","Three of Swords","Four of Swords","Five of Swords","Six of Swords","Seven of Swords","Eight of Swords","Nine of Swords","Ten of Swords",
+"Page of Swords","Knight of Swords","Queen of Swords","King of Swords",
+
+"Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles","Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles",
+"Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
+
 ];
 
 function tirar(){
@@ -250,7 +279,7 @@ nombre.className="nombreCarta";
 if(c<=22){
 nombre.innerText=(idioma=="ES")?nombresES[c-1]:nombresEN[c-1];
 }else{
-nombre.innerText=(idioma=="ES"?"Carta ":"Card ")+c;
+nombre.innerText = idioma=="ES" ? nombresES[c-1] : nombresEN[c-1];
 }
 
 div.appendChild(img);
@@ -353,3 +382,5 @@ instrucciones();
 
 </body>
 </html>
+
+

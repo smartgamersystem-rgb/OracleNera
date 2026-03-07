@@ -183,6 +183,7 @@ let idioma="ES";
 let tiradaActual=[];
 
 const nombresES=[
+
 "El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante",
 "Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna",
 "La Justicia","El Colgado","La Muerte","La Templanza","El Diablo","La Torre",
@@ -199,9 +200,11 @@ const nombresES=[
 
 "As de Oros","Dos de Oros","Tres de Oros","Cuatro de Oros","Cinco de Oros","Seis de Oros","Siete de Oros","Ocho de Oros","Nueve de Oros","Diez de Oros",
 "Sota de Oros","Caballero de Oros","Reina de Oros","Rey de Oros"
+
 ];
 
 const nombresEN=[
+
 "The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant",
 "The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune",
 "Justice","The Hanged Man","Death","Temperance","The Devil","The Tower",
@@ -218,6 +221,7 @@ const nombresEN=[
 
 "Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles","Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles",
 "Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
+
 ];
 
 function tirar(){
@@ -316,7 +320,6 @@ alert(idioma=="ES"?"Resultado copiado":"Result copied");
 function resetear(){
 
 tiradaActual=[];
-
 document.getElementById("cartas").innerHTML="";
 document.getElementById("resultado").innerHTML="";
 
@@ -327,13 +330,9 @@ function traducir(){
 idioma = (idioma=="ES") ? "EN" : "ES";
 
 document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
-
 document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
-
 document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
-
 document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
-
 document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
 
 mostrar();
@@ -375,5 +374,6 @@ instrucciones();
 
 </body>
 </html>
+
 
 

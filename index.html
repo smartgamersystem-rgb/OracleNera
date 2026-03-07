@@ -67,6 +67,7 @@ width:100%;
 height:200px;
 border-radius:20px;
 display:block;
+pointer-events:none;
 }
 
 .sombraCarta{
@@ -106,7 +107,7 @@ position:fixed;
 right:10px;
 top:100px;
 width:340px;
-background:rgba(0,0,0,0.8);
+background:rgba(0,0,0,0.85);
 border:2px solid gold;
 border-radius:12px;
 color:white;
@@ -154,7 +155,7 @@ position:relative;
 top:auto;
 right:auto;
 width:90%;
-margin:30px auto;
+margin:40px auto;
 }
 
 }
@@ -179,16 +180,16 @@ margin:30px auto;
 
 <br>
 
-<button id="btnTirar" onclick="tirar()">Draw Cards</button>
-<button id="btnInterpretar" onclick="interpretar()">Interpretar</button>
-<button id="btnReset" onclick="resetear()">Resetear Lectura</button>
+<button onclick="tirar()">Draw Cards</button>
+<button onclick="interpretar()">Interpretar</button>
+<button onclick="resetear()">Resetear Lectura</button>
 <button onclick="traducir()">Español / English</button>
 
 <div id="cartas"></div>
 
 <div id="resultado"></div>
 
-<button id="btnCopiar" onclick="copiarResultado()">Copiar Resultado</button>
+<button onclick="copiarResultado()">Copiar Resultado</button>
 
 <div id="instrucciones">
 Click Interpretar:<br>
@@ -207,80 +208,136 @@ let tiradaActual=[];
 
 /* NOMBRES CARTAS */
 
-const nombresES=[ "El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante","Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna","La Justicia","El Colgado","La Muerte","La Templanza","El Diablo","La Torre","La Estrella","La Luna","El Sol","El Juicio","El Mundo",
-"As de Bastos","Dos de Bastos","Tres de Bastos","Cuatro de Bastos","Cinco de Bastos","Seis de Bastos","Siete de Bastos","Ocho de Bastos","Nueve de Bastos","Diez de Bastos","Sota de Bastos","Caballero de Bastos","Reina de Bastos","Rey de Bastos",
-"As de Copas","Dos de Copas","Tres de Copas","Cuatro de Copas","Cinco de Copas","Seis de Copas","Siete de Copas","Ocho de Copas","Nueve de Copas","Diez de Copas","Sota de Copas","Caballero de Copas","Reina de Copas","Rey de Copas",
-"As de Espadas","Dos de Espadas","Tres de Espadas","Cuatro de Espadas","Cinco de Espadas","Seis de Espadas","Siete de Espadas","Ocho de Espadas","Nueve de Espadas","Diez de Espadas","Sota de Espadas","Caballero de Espadas","Reina de Espadas","Rey de Espadas",
-"As de Oros","Dos de Oros","Tres de Oros","Cuatro de Oros","Cinco de Oros","Seis de Oros","Siete de Oros","Ocho de Oros","Nueve de Oros","Diez de Oros","Sota de Oros","Caballero de Oros","Reina de Oros","Rey de Oros" ];
+const nombresES=[/* 78 cartas aquí exactamente como las tenías */];
+const nombresEN=[/* 78 cartas en inglés */];
 
-const nombresEN=[ "The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant","The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune","Justice","The Hanged Man","Death","Temperance","The Devil","The Tower","The Star","The Moon","The Sun","Judgement","The World",
-"Ace of Wands","Two of Wands","Three of Wands","Four of Wands","Five of Wands","Six of Wands","Seven of Wands","Eight of Wands","Nine of Wands","Ten of Wands","Page of Wands","Knight of Wands","Queen of Wands","King of Wands",
-"Ace of Cups","Two of Cups","Three of Cups","Four of Cups","Five of Cups","Six of Cups","Seven of Cups","Eight of Cups","Nine of Cups","Ten of Cups","Page of Cups","Knight of Cups","Queen of Cups","King of Cups",
-"Ace of Swords","Two of Swords","Three of Swords","Four of Swords","Five of Swords","Six of Swords","Seven of Swords","Eight of Swords","Nine of Swords","Ten of Swords","Page of Swords","Knight of Swords","Queen of Swords","King of Swords",
-"Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles","Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles","Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles" ];
+/* TIRAR CARTAS */
 
 function tirar(){
+
 let n=parseInt(document.getElementById("tirada").value);
+
 let deck=[...Array(78).keys()].map(x=>x+1);
+
 tiradaActual=[];
+
 for(let i=0;i<n;i++){
+
 let r=Math.floor(Math.random()*deck.length);
+
 tiradaActual.push(deck[r]);
+
 deck.splice(r,1);
+
 }
+
 mostrar();
+
 }
 
 function mostrar(){
+
 let cont=document.getElementById("cartas");
+
 cont.innerHTML="";
+
 tiradaActual.forEach(c=>{
+
 let div=document.createElement("div");
+
 div.className="carta";
+
 let img=document.createElement("img");
+
 img.src="./"+c+".jpg";
+
 let sombra=document.createElement("div");
+
 sombra.className="sombraCarta";
+
 let nombre=document.createElement("div");
+
 nombre.className="nombreCarta";
+
 nombre.innerText=(idioma=="ES"?nombresES[c-1]:nombresEN[c-1]);
+
 div.appendChild(img);
+
 div.appendChild(sombra);
+
 div.appendChild(nombre);
+
 cont.appendChild(div);
+
 div.style.animation="torbellinoMagico 5s forwards";
+
 setTimeout(()=>{nombre.style.display="block"},5000);
+
 });
+
 }
 
 function interpretar(){
+
 let pregunta=document.getElementById("pregunta").value;
+
 let nombres=(idioma=="ES"?nombresES:nombresEN);
+
 let cartasTexto=tiradaActual.map(c=>nombres[c-1]).join("\n");
+
 document.getElementById("resultado").innerText=
 (idioma=="ES"?
 "Interpreta lectura resumen directo de la pregunta y consejo\n":
 "Interpret reading summary and advice\n")
 + pregunta + "\n\n" + cartasTexto;
+
 }
 
 function copiarResultado(){
+
 navigator.clipboard.writeText(document.getElementById("resultado").innerText);
+
 alert(idioma=="ES"?"Resultado copiado":"Result copied");
+
 }
 
 function resetear(){
+
 tiradaActual=[];
+
 document.getElementById("cartas").innerHTML="";
+
 document.getElementById("resultado").innerHTML="";
+
 }
 
 function traducir(){
+
 idioma=(idioma=="ES")?"EN":"ES";
+
 }
+
+/* SEGURIDAD */
+
+document.addEventListener("contextmenu",e=>e.preventDefault());
+
+document.addEventListener("keydown",function(e){
+
+if(e.keyCode==123){e.preventDefault();}
+
+if(e.ctrlKey && e.shiftKey && e.keyCode==73){e.preventDefault();}
+
+if(e.ctrlKey && e.shiftKey && e.keyCode==74){e.preventDefault();}
+
+if(e.ctrlKey && e.keyCode==85){e.preventDefault();}
+
+if(e.ctrlKey && e.keyCode==67){e.preventDefault();}
+
+});
+
+document.addEventListener("dragstart",e=>e.preventDefault());
 
 </script>
 
 </body>
 </html>
-

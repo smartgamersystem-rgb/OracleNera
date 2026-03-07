@@ -183,7 +183,6 @@ let idioma="ES";
 let tiradaActual=[];
 
 const nombresES=[
-const nombresES = [
 
 "El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante",
 "Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna",
@@ -204,7 +203,7 @@ const nombresES = [
 
 ];
 
-const nombresEN = [
+const nombresEN=[
 
 "The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant",
 "The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune",
@@ -276,11 +275,7 @@ sombra.className="sombraCarta";
 let nombre=document.createElement("div");
 nombre.className="nombreCarta";
 
-if(c<=22){
-nombre.innerText=(idioma=="ES")?nombresES[c-1]:nombresEN[c-1];
-}else{
 nombre.innerText = idioma=="ES" ? nombresES[c-1] : nombresEN[c-1];
-}
 
 div.appendChild(img);
 div.appendChild(sombra);
@@ -323,7 +318,6 @@ alert(idioma=="ES"?"Resultado copiado":"Result copied");
 function resetear(){
 
 tiradaActual=[];
-
 document.getElementById("cartas").innerHTML="";
 document.getElementById("resultado").innerHTML="";
 
@@ -336,11 +330,8 @@ idioma = (idioma=="ES") ? "EN" : "ES";
 document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
 
 document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
-
 document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
-
 document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
-
 document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
 
 mostrar();
@@ -355,7 +346,7 @@ if(idioma=="ES"){
 document.getElementById("instrucciones").innerHTML=
 `Click Interpretar:<br>
 1. Copia el resultado de arriba.<br>
-2. Ve a https://chat.openai.com en modo incógnito o sin cuenta.<br>
+2. Ve a https://chat.openai.com en modo incógnito.<br>
 3. Pega el resultado.<br>
 4. ChatGPT interpreta la energía generada por NERA Tarot.<br>
 5. Cada lectura es única.<br>

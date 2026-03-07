@@ -2,147 +2,42 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NERA Tarot</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<title>Tarot IA</title>
 
 <style>
 
 body{
-margin:0;
-font-family:'Cinzel',serif;
-background:url("nera.jpg") center/cover fixed;
-color:#FFD700;
+font-family:Arial;
+background:#0b0b0b;
+color:white;
 text-align:center;
-overflow-x:hidden;
-}
-
-h1{
-font-size:48px;
-text-shadow:0 0 20px gold;
-}
-
-input,select{
-padding:10px;
-font-size:18px;
-background:black;
-color:gold;
-border:2px solid gold;
-margin:5px;
-font-family:'Cinzel';
 }
 
 button{
-padding:10px 18px;
+padding:10px 20px;
 margin:5px;
 font-size:16px;
-background:#111;
-color:gold;
-border:1px solid gold;
 cursor:pointer;
-font-family:'Cinzel';
 }
 
-#cartas{
-display:grid;
-justify-content:center;
-gap:20px;
-margin-top:30px;
+#mesa{
+margin-top:20px;
 }
-
-.grid3{grid-template-columns:repeat(3,150px);}
-.grid5{grid-template-columns:repeat(5,150px);}
-.grid10{grid-template-columns:repeat(5,150px);}
-.grid78{grid-template-columns:repeat(7,100px);}
 
 .carta{
-width:140px;
-height:240px;
-position:relative;
-overflow:hidden;
+width:120px;
+margin:5px;
+cursor:pointer;
+transition:transform .2s;
 }
 
-.carta img{
-width:100%;
-height:200px;
-border-radius:20px;
-display:block;
-}
-
-.sombraCarta{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:200px;
-background:black;
-border-radius:20px;
-animation:revelarCarta 1s forwards;
-animation-delay:5s;
-}
-
-.nombreCarta{
-font-size:14px;
-margin-top:5px;
-color:#FFD700;
-font-weight:700;
-display:none;
+.carta:hover{
+transform:scale(1.1);
 }
 
 #resultado{
-margin:30px auto;
-width:80%;
-max-width:900px;
-background:#1a1a1a;
-color:white;
-padding:20px;
-border-radius:12px;
-white-space:pre-line;
-font-size:18px;
-}
-
-#instrucciones{
-width:90%;
-max-width:900px;
-margin:40px auto;
-background:rgba(0,0,0,0.8);
-border:2px solid gold;
-border-radius:12px;
-color:white;
-padding:15px;
-text-align:left;
-font-size:14px;
-line-height:1.4;
-}
-
-.carta::after{
-content:"";
-position:absolute;
-top:-10px;
-left:-10px;
-width:160%;
-height:220px;
-background:radial-gradient(circle,rgba(255,215,0,.9),rgba(255,215,0,.3),transparent 70%);
-animation:rayosMagicos 0.4s infinite alternate;
-pointer-events:none;
-}
-
-@keyframes rayosMagicos{
-0%{opacity:.2;filter:blur(2px);}
-100%{opacity:.9;filter:blur(6px);}
-}
-
-@keyframes torbellinoMagico{
-0%{transform:translateX(-600px) rotate(0) scale(.2);opacity:0}
-25%{transform:translateX(-200px) rotate(720deg) scale(.5);opacity:.5}
-50%{transform:translateX(200px) rotate(1440deg) scale(.8);opacity:.8}
-100%{transform:translateX(0) rotate(3600deg) scale(1);opacity:1}
-}
-
-@keyframes revelarCarta{
-0%{opacity:1;}
-100%{opacity:0;}
+margin-top:20px;
+font-size:20px;
 }
 
 </style>
@@ -150,234 +45,140 @@ pointer-events:none;
 
 <body>
 
-<h1>NERA Tarot</h1>
+<h1>Tarot IA</h1>
 
-<input id="pregunta" placeholder="Escribe tu pregunta">
+<button onclick="idioma='ES'">Español</button>
+<button onclick="idioma='EN'">English</button>
+<button onclick="barajar()">Barajar</button>
+<button onclick="interpretar()">Interpretar</button>
 
-<br>
+<div id="mesa"></div>
 
-<select id="tirada">
-<option value="3">3 Cartas</option>
-<option value="5">5 Cartas</option>
-<option value="10">10 Cartas</option>
-<option value="78">78 Cartas</option>
-</select>
-
-<br>
-
-<button id="btnTirar" onclick="tirar()">Tirar Cartas</button>
-<button id="btnInterpretar" onclick="interpretar()">Interpretar</button>
-<button id="btnReset" onclick="resetear()">Resetear Lectura</button>
-<button onclick="traducir()">Español / English</button>
-
-<div id="cartas"></div>
 <div id="resultado"></div>
-
-<button id="btnCopiar" onclick="copiarResultado()">Copiar Resultado</button>
-
-<div id="instrucciones"></div>
 
 <script>
 
-let idioma="ES";
-let tiradaActual=[];
+let idioma="ES"
+let seleccion=[]
+let mazo=[]
 
-const nombresES=[
+const cartasES={
+1:"El Loco",2:"El Mago",3:"La Sacerdotisa",4:"La Emperatriz",5:"El Emperador",6:"El Hierofante",
+7:"Los Enamorados",8:"El Carro",9:"La Fuerza",10:"El Ermitaño",11:"La Rueda de la Fortuna",
+12:"La Justicia",13:"El Colgado",14:"La Muerte",15:"La Templanza",16:"El Diablo",17:"La Torre",
+18:"La Estrella",19:"La Luna",20:"El Sol",21:"El Juicio",22:"El Mundo",
 
-"El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante",
-"Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna",
-"La Justicia","El Colgado","La Muerte","La Templanza","El Diablo","La Torre",
-"La Estrella","La Luna","El Sol","El Juicio","El Mundo",
+23:"As de Bastos",24:"Dos de Bastos",25:"Tres de Bastos",26:"Cuatro de Bastos",27:"Cinco de Bastos",
+28:"Seis de Bastos",29:"Siete de Bastos",30:"Ocho de Bastos",31:"Nueve de Bastos",32:"Diez de Bastos",
+33:"Sota de Bastos",34:"Caballero de Bastos",35:"Reina de Bastos",36:"Rey de Bastos",
 
-"As de Bastos","Dos de Bastos","Tres de Bastos","Cuatro de Bastos","Cinco de Bastos","Seis de Bastos","Siete de Bastos","Ocho de Bastos","Nueve de Bastos","Diez de Bastos",
-"Sota de Bastos","Caballero de Bastos","Reina de Bastos","Rey de Bastos",
+37:"As de Copas",38:"Dos de Copas",39:"Tres de Copas",40:"Cuatro de Copas",41:"Cinco de Copas",
+42:"Seis de Copas",43:"Siete de Copas",44:"Ocho de Copas",45:"Nueve de Copas",46:"Diez de Copas",
+47:"Sota de Copas",48:"Caballero de Copas",49:"Reina de Copas",50:"Rey de Copas",
 
-"As de Copas","Dos de Copas","Tres de Copas","Cuatro de Copas","Cinco de Copas","Seis de Copas","Siete de Copas","Ocho de Copas","Nueve de Copas","Diez de Copas",
-"Sota de Copas","Caballero de Copas","Reina de Copas","Rey de Copas",
+51:"As de Espadas",52:"Dos de Espadas",53:"Tres de Espadas",54:"Cuatro de Espadas",55:"Cinco de Espadas",
+56:"Seis de Espadas",57:"Siete de Espadas",58:"Ocho de Espadas",59:"Nueve de Espadas",60:"Diez de Espadas",
+61:"Sota de Espadas",62:"Caballero de Espadas",63:"Reina de Espadas",64:"Rey de Espadas",
 
-"As de Espadas","Dos de Espadas","Tres de Espadas","Cuatro de Espadas","Cinco de Espadas","Seis de Espadas","Siete de Espadas","Ocho de Espadas","Nueve de Espadas","Diez de Espadas",
-"Sota de Espadas","Caballero de Espadas","Reina de Espadas","Rey de Espadas",
+65:"As de Oros",66:"Dos de Oros",67:"Tres de Oros",68:"Cuatro de Oros",69:"Cinco de Oros",
+70:"Seis de Oros",71:"Siete de Oros",72:"Ocho de Oros",73:"Nueve de Oros",74:"Diez de Oros",
+75:"Sota de Oros",76:"Caballero de Oros",77:"Reina de Oros",78:"Rey de Oros"
+}
 
-"As de Oros","Dos de Oros","Tres de Oros","Cuatro de Oros","Cinco de Oros","Seis de Oros","Siete de Oros","Ocho de Oros","Nueve de Oros","Diez de Oros",
-"Sota de Oros","Caballero de Oros","Reina de Oros","Rey de Oros"
+const cartasEN={
+1:"The Fool",2:"The Magician",3:"The High Priestess",4:"The Empress",5:"The Emperor",6:"The Hierophant",
+7:"The Lovers",8:"The Chariot",9:"Strength",10:"The Hermit",11:"Wheel of Fortune",
+12:"Justice",13:"The Hanged Man",14:"Death",15:"Temperance",16:"The Devil",17:"The Tower",
+18:"The Star",19:"The Moon",20:"The Sun",21:"Judgement",22:"The World",
 
-];
+23:"Ace of Wands",24:"Two of Wands",25:"Three of Wands",26:"Four of Wands",27:"Five of Wands",
+28:"Six of Wands",29:"Seven of Wands",30:"Eight of Wands",31:"Nine of Wands",32:"Ten of Wands",
+33:"Page of Wands",34:"Knight of Wands",35:"Queen of Wands",36:"King of Wands",
 
-const nombresEN=[
+37:"Ace of Cups",38:"Two of Cups",39:"Three of Cups",40:"Four of Cups",41:"Five of Cups",
+42:"Six of Cups",43:"Seven of Cups",44:"Eight of Cups",45:"Nine of Cups",46:"Ten of Cups",
+47:"Page of Cups",48:"Knight of Cups",49:"Queen of Cups",50:"King of Cups",
 
-"The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant",
-"The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune",
-"Justice","The Hanged Man","Death","Temperance","The Devil","The Tower",
-"The Star","The Moon","The Sun","Judgement","The World",
+51:"Ace of Swords",52:"Two of Swords",53:"Three of Swords",54:"Four of Swords",55:"Five of Swords",
+56:"Six of Swords",57:"Seven of Swords",58:"Eight of Swords",59:"Nine of Swords",60:"Ten of Swords",
+61:"Page of Swords",62:"Knight of Swords",63:"Queen of Swords",64:"King of Swords",
 
-"Ace of Wands","Two of Wands","Three of Wands","Four of Wands","Five of Wands","Six of Wands","Seven of Wands","Eight of Wands","Nine of Wands","Ten of Wands",
-"Page of Wands","Knight of Wands","Queen of Wands","King of Wands",
+65:"Ace of Pentacles",66:"Two of Pentacles",67:"Three of Pentacles",68:"Four of Pentacles",69:"Five of Pentacles",
+70:"Six of Pentacles",71:"Seven of Pentacles",72:"Eight of Pentacles",73:"Nine of Pentacles",74:"Ten of Pentacles",
+75:"Page of Pentacles",76:"Knight of Pentacles",77:"Queen of Pentacles",78:"King of Pentacles"
+}
 
-"Ace of Cups","Two of Cups","Three of Cups","Four of Cups","Five of Cups","Six of Cups","Seven of Cups","Eight of Cups","Nine of Cups","Ten of Cups",
-"Page of Cups","Knight of Cups","Queen of Cups","King of Cups",
+function barajar(){
 
-"Ace of Swords","Two of Swords","Three of Swords","Four of Swords","Five of Swords","Six of Swords","Seven of Swords","Eight of Swords","Nine of Swords","Ten of Swords",
-"Page of Swords","Knight of Swords","Queen of Swords","King of Swords",
+seleccion=[]
+mazo=[]
 
-"Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles","Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles",
-"Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
+for(let i=1;i<=78;i++) mazo.push(i)
 
-];
+mazo.sort(()=>Math.random()-0.5)
 
-function tirar(){
+const mesa=document.getElementById("mesa")
+mesa.innerHTML=""
 
-let n=parseInt(document.getElementById("tirada").value);
+mazo.slice(0,12).forEach(c=>{
 
-let deck=[...Array(78).keys()].map(x=>x+1);
+let img=document.createElement("img")
 
-tiradaActual=[];
+img.src="img/"+c+".jpg"
+img.className="carta"
 
-for(let i=0;i<n;i++){
+img.onclick=()=>elegir(c)
 
-let r=Math.floor(Math.random()*deck.length);
+mesa.appendChild(img)
 
-tiradaActual.push(deck[r]);
-
-deck.splice(r,1);
+})
 
 }
 
-mostrar();
+function elegir(c){
+
+if(seleccion.length>=3) return
+
+if(!seleccion.includes(c)){
+seleccion.push(c)
+}
+
+mostrar()
 
 }
 
 function mostrar(){
 
-let cont=document.getElementById("cartas");
+const r=document.getElementById("resultado")
 
-cont.innerHTML="";
+let nombres=seleccion.map(c=>
+idioma=="ES"?cartasES[c]:cartasEN[c]
+)
 
-let n=tiradaActual.length;
-
-cont.className="";
-
-if(n==3)cont.classList.add("grid3");
-if(n==5)cont.classList.add("grid5");
-if(n==10)cont.classList.add("grid10");
-if(n==78)cont.classList.add("grid78");
-
-tiradaActual.forEach(c=>{
-
-let div=document.createElement("div");
-div.className="carta";
-
-let img=document.createElement("img");
-img.src=c+".jpg";
-
-let sombra=document.createElement("div");
-sombra.className="sombraCarta";
-
-let nombre=document.createElement("div");
-nombre.className="nombreCarta";
-
-nombre.innerText = idioma=="ES" ? nombresES[c-1] : nombresEN[c-1];
-
-div.appendChild(img);
-div.appendChild(sombra);
-div.appendChild(nombre);
-
-cont.appendChild(div);
-
-div.style.animation="torbellinoMagico 5s forwards";
-
-setTimeout(()=>{nombre.style.display="block";},5000);
-
-});
+r.innerHTML=nombres.join("<br>")
 
 }
 
 function interpretar(){
 
 if(seleccion.length!==3){
-alert(idioma=="ES"?"Selecciona 3 cartas":"Select 3 cards");
-return;
+alert(idioma=="ES"?"Selecciona 3 cartas":"Select 3 cards")
+return
 }
 
-let cartasNombre = seleccion.map(c =>
-idioma=="ES" ? cartasES[c] : cartasEN[c]
-);
+let nombres=seleccion.map(c=>
+idioma=="ES"?cartasES[c]:cartasEN[c]
+)
 
-let texto = idioma=="ES"
-? `Interpreta esta tirada de tarot Rider-Waite: ${cartasNombre.join(", ")}`
-: `Interpret this Rider-Waite tarot spread: ${cartasNombre.join(", ")}`;
+let texto=idioma=="ES"
+?`Interpreta lectura tarot resumen directo de la pregunta y consejo: ${nombres.join(", ")}`
+:`Interpret tarot reading direct summary and advice: ${nombres.join(", ")}`
 
-window.open("https://chat.openai.com/?prompt="+encodeURIComponent(texto),"_blank");
-
-}
-
-function copiarResultado(){
-
-let contenido=document.getElementById("resultado").innerText;
-
-navigator.clipboard.writeText(contenido);
-
-alert(idioma=="ES"?"Resultado copiado":"Result copied");
+window.open("https://chat.openai.com/?prompt="+encodeURIComponent(texto),"_blank")
 
 }
-
-function resetear(){
-
-tiradaActual=[];
-document.getElementById("cartas").innerHTML="";
-document.getElementById("resultado").innerHTML="";
-
-}
-
-function traducir(){
-
-idioma = (idioma=="ES") ? "EN" : "ES";
-
-document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
-
-document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
-document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
-document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
-document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
-
-mostrar();
-instrucciones();
-
-}
-
-function instrucciones(){
-
-if(idioma=="ES"){
-
-document.getElementById("instrucciones").innerHTML=
-`Click Interpretar:<br>
-1. Copia el resultado de arriba.<br>
-2. Ve a https://chat.openai.com en modo incógnito.<br>
-3. Pega el resultado.<br>
-4. ChatGPT interpreta la energía generada por NERA Tarot.<br>
-5. Cada lectura es única.<br>
-6. Repite la consulta si lo deseas.`;
-
-}else{
-
-document.getElementById("instrucciones").innerHTML=
-`Click Interpret:<br>
-1. Copy the result above.<br>
-2. Go to https://chat.openai.com in incognito mode.<br>
-3. Paste the result.<br>
-4. ChatGPT interprets the energy generated by NERA Tarot.<br>
-5. Each reading is unique.<br>
-6. Repeat the question if desired.`;
-
-}
-
-}
-
-instrucciones();
 
 </script>
 
 </body>
 </html>
-
-
-

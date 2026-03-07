@@ -254,5 +254,87 @@ function traducir(){
         "Click Interpret:<br>1. Copy the result above.<br>2. Go to <a href='https://chat.openai.com' target='_blank'>chat.openai.com</a> in incognito mode or without an account.<br>3. Paste the result.<br>4. Consulting ChatGPT directly is not the same because it has no soul; first use NERA Tarot to generate the astral cord and obtain a result.<br>5. Each reading is unique; ask the software again if you want it to work properly.<br>6. ChatGPT only interprets the energy of the reading from the website, it does not generate the result by itself.";
 }
 </script>
+    <script>
+
+// bloquear clic derecho
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+// bloquear selección
+document.onselectstart = () => false;
+
+// bloquear arrastrar imágenes
+document.ondragstart = () => false;
+
+// bloquear copiar
+document.addEventListener("copy", e => e.preventDefault());
+
+// bloquear imprimir
+window.onbeforeprint = function(){
+alert("Printing disabled");
+return false;
+};
+
+// bloquear teclas comunes
+document.addEventListener("keydown", function(e){
+
+// F12
+if(e.key==="F12"){e.preventDefault();}
+
+// CTRL combos
+if(e.ctrlKey){
+
+if(e.key==="u") e.preventDefault(); // view source
+if(e.key==="s") e.preventDefault(); // save
+if(e.key==="p") e.preventDefault(); // print
+if(e.key==="c") e.preventDefault(); // copy
+if(e.key==="x") e.preventDefault();
+if(e.key==="a") e.preventDefault();
+
+}
+
+// CTRL SHIFT combos
+if(e.ctrlKey && e.shiftKey){
+
+if(e.key==="I") e.preventDefault(); // inspect
+if(e.key==="J") e.preventDefault(); // console
+if(e.key==="C") e.preventDefault();
+
+}
+
+// Mac keys
+if(e.metaKey){
+
+if(e.key==="s") e.preventDefault();
+if(e.key==="p") e.preventDefault();
+if(e.key==="c") e.preventDefault();
+
+}
+
+});
+
+
+// detectar devtools abiertas
+let devtools = {open:false};
+
+setInterval(function(){
+
+let widthThreshold = window.outerWidth - window.innerWidth > 160;
+let heightThreshold = window.outerHeight - window.innerHeight > 160;
+
+if(widthThreshold || heightThreshold){
+if(!devtools.open){
+
+devtools.open = true;
+
+document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:40vh'>Access Blocked</h1>";
+
+}
+
+}
+
+},500);
+
+</script>
 </body>
 </html>
+

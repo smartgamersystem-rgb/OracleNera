@@ -2,7 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NERA Tarot</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -101,10 +103,10 @@ font-size:18px;
 }
 
 #instrucciones{
-width:80%;
+width:90%;
 max-width:900px;
-margin:20px auto;
-background:rgba(0,0,0,0.85);
+margin:40px auto;
+background:rgba(0,0,0,0.8);
 border:2px solid gold;
 border-radius:12px;
 color:white;
@@ -143,28 +145,6 @@ pointer-events:none;
 100%{opacity:0;}
 }
 
-/* MOVIL */
-
-@media (max-width:700px){
-
-h1{font-size:32px;}
-
-.grid3{grid-template-columns:repeat(3,100px);}
-.grid5{grid-template-columns:repeat(3,100px);}
-.grid10{grid-template-columns:repeat(3,100px);}
-.grid78{grid-template-columns:repeat(4,80px);}
-
-.carta{
-width:100px;
-height:200px;
-}
-
-.carta img{
-height:150px;
-}
-
-}
-
 </style>
 </head>
 
@@ -185,62 +165,36 @@ height:150px;
 
 <br>
 
-<button id="btnTirar" onclick="tirar()">Draw Cards</button>
+<button id="btnTirar" onclick="tirar()">Tirar Cartas</button>
 <button id="btnInterpretar" onclick="interpretar()">Interpretar</button>
 <button id="btnReset" onclick="resetear()">Resetear Lectura</button>
 <button onclick="traducir()">Español / English</button>
 
 <div id="cartas"></div>
-
 <div id="resultado"></div>
 
 <button id="btnCopiar" onclick="copiarResultado()">Copiar Resultado</button>
 
-<!-- INSTRUCCIONES AHORA DEBAJO -->
-<div id="instrucciones">
-Click Interpretar:<br>
-1. Copia el resultado de arriba.<br>
-2. Ve a <a href="https://chat.openai.com" target="_blank">chat.openai.com</a> en modo incógnito o sin cuenta.<br>
-3. Pega el resultado.<br>
-4. No es lo mismo consultar ChatGPT directo porque no tiene alma; primero usa NERA Tarot para generar un cordón astral y tener un resultado.<br>
-5. Cada lectura es única; repregunta al software si quieres que funcione correctamente.<br>
-6. ChatGPT solo interpreta la energía del resultado de la web, no genera el resultado por sí mismo.
-</div>
+<div id="instrucciones"></div>
 
 <script>
-
-/* SEGURIDAD */
-
-document.addEventListener("contextmenu",e=>e.preventDefault());
-
-document.onkeydown=function(e){
-if(e.keyCode==123) return false;
-if(e.ctrlKey && e.shiftKey && e.keyCode==73) return false;
-if(e.ctrlKey && e.keyCode==85) return false;
-};
 
 let idioma="ES";
 let tiradaActual=[];
 
-/* NOMBRES CARTAS */
-
 const nombresES=[
-
-"El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante","Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna","La Justicia","El Colgado","La Muerte","La Templanza","El Diablo","La Torre","La Estrella","La Luna","El Sol","El Juicio","El Mundo",
-
-"As de Bastos","Dos de Bastos","Tres de Bastos","Cuatro de Bastos","Cinco de Bastos","Seis de Bastos","Siete de Bastos","Ocho de Bastos","Nueve de Bastos","Diez de Bastos","Sota de Bastos","Caballero de Bastos","Reina de Bastos","Rey de Bastos",
-
-"As de Copas","Dos de Copas","Tres de Copas","Cuatro de Copas","Cinco de Copas","Seis de Copas","Siete de Copas","Ocho de Copas","Nueve de Copas","Diez de Copas","Sota de Copas","Caballero de Copas","Reina de Copas","Rey de Copas",
-
-"As de Espadas","Dos de Espadas","Tres de Espadas","Cuatro de Espadas","Cinco de Espadas","Seis de Espadas","Siete de Espadas","Ocho de Espadas","Nueve de Espadas","Diez de Espadas","Sota de Espadas","Caballero de Espadas","Reina de Espadas","Rey de Espadas",
-
-"As de Oros","Dos de Oros","Tres de Oros","Cuatro de Oros","Cinco de Oros","Seis de Oros","Siete de Oros","Ocho de Oros","Nueve de Oros","Diez de Oros","Sota de Oros","Caballero de Oros","Reina de Oros","Rey de Oros"
-
+"El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante",
+"Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna",
+"La Justicia","El Colgado","La Muerte","La Templanza","El Diablo","La Torre",
+"La Estrella","La Luna","El Sol","El Juicio","El Mundo"
 ];
 
-const nombresEN=[ ...nombresES ]; // mismo orden
-
-/* TIRAR */
+const nombresEN=[
+"The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant",
+"The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune",
+"Justice","The Hanged Man","Death","Temperance","The Devil","The Tower",
+"The Star","The Moon","The Sun","Judgement","The World"
+];
 
 function tirar(){
 
@@ -264,8 +218,6 @@ mostrar();
 
 }
 
-/* MOSTRAR */
-
 function mostrar(){
 
 let cont=document.getElementById("cartas");
@@ -284,40 +236,36 @@ if(n==78)cont.classList.add("grid78");
 tiradaActual.forEach(c=>{
 
 let div=document.createElement("div");
-
 div.className="carta";
 
 let img=document.createElement("img");
-
-img.src="images/"+c+".jpg";
+img.src=c+".jpg";
 
 let sombra=document.createElement("div");
-
 sombra.className="sombraCarta";
 
 let nombre=document.createElement("div");
-
 nombre.className="nombreCarta";
 
-nombre.innerText=nombresES[c-1];
+if(c<=22){
+nombre.innerText=(idioma=="ES")?nombresES[c-1]:nombresEN[c-1];
+}else{
+nombre.innerText=(idioma=="ES"?"Carta ":"Card ")+c;
+}
 
 div.appendChild(img);
-
 div.appendChild(sombra);
-
 div.appendChild(nombre);
 
 cont.appendChild(div);
 
 div.style.animation="torbellinoMagico 5s forwards";
 
-setTimeout(()=>{nombre.style.display="block"},5000);
+setTimeout(()=>{nombre.style.display="block";},5000);
 
 });
 
 }
-
-/* INTERPRETAR */
 
 function interpretar(){
 
@@ -325,13 +273,13 @@ let pregunta=document.getElementById("pregunta").value;
 
 let resultado=document.getElementById("resultado");
 
-let lineas=tiradaActual.map(c=>nombresES[c-1]).join("\n");
+let texto=(idioma=="ES")?
+"Interpreta lectura resumen directo de la pregunta y consejo\n":
+"Interpret reading summary and advice\n";
 
-resultado.innerText="Interpreta lectura resumen directo de la pregunta y consejo\n"+pregunta+"\n"+lineas;
+resultado.innerText = texto + pregunta + "\n" + tiradaActual.join(", ");
 
 }
-
-/* COPIAR */
 
 function copiarResultado(){
 
@@ -339,21 +287,67 @@ let contenido=document.getElementById("resultado").innerText;
 
 navigator.clipboard.writeText(contenido);
 
-alert("Resultado copiado");
+alert(idioma=="ES"?"Resultado copiado":"Result copied");
 
 }
-
-/* RESET */
 
 function resetear(){
 
 tiradaActual=[];
 
 document.getElementById("cartas").innerHTML="";
-
 document.getElementById("resultado").innerHTML="";
 
 }
+
+function traducir(){
+
+idioma = (idioma=="ES") ? "EN" : "ES";
+
+document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
+
+document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
+
+document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
+
+document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
+
+document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
+
+mostrar();
+instrucciones();
+
+}
+
+function instrucciones(){
+
+if(idioma=="ES"){
+
+document.getElementById("instrucciones").innerHTML=
+`Click Interpretar:<br>
+1. Copia el resultado de arriba.<br>
+2. Ve a https://chat.openai.com en modo incógnito o sin cuenta.<br>
+3. Pega el resultado.<br>
+4. ChatGPT interpreta la energía generada por NERA Tarot.<br>
+5. Cada lectura es única.<br>
+6. Repite la consulta si lo deseas.`;
+
+}else{
+
+document.getElementById("instrucciones").innerHTML=
+`Click Interpret:<br>
+1. Copy the result above.<br>
+2. Go to https://chat.openai.com in incognito mode.<br>
+3. Paste the result.<br>
+4. ChatGPT interprets the energy generated by NERA Tarot.<br>
+5. Each reading is unique.<br>
+6. Repeat the question if desired.`;
+
+}
+
+}
+
+instrucciones();
 
 </script>
 

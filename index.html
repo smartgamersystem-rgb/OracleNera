@@ -373,7 +373,131 @@ instrucciones();
 </script>
 
 </body>
+  <script>
+
+// bloquear iframe (anti embedding)
+if (window.top !== window.self) {
+document.body.innerHTML="";
+window.top.location = window.self.location;
+}
+
+// bloquear clic derecho
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+// bloquear copiar
+document.addEventListener("copy", e => e.preventDefault());
+
+// bloquear cortar
+document.addEventListener("cut", e => e.preventDefault());
+
+// bloquear pegar
+document.addEventListener("paste", e => e.preventDefault());
+
+// bloquear arrastrar
+document.addEventListener("dragstart", e => e.preventDefault());
+
+// bloquear selección
+document.onselectstart = () => false;
+
+
+// bloquear teclas
+document.addEventListener("keydown", function(e){
+
+// F12
+if(e.key === "F12") e.preventDefault();
+
+// CTRL
+if(e.ctrlKey){
+
+if(e.key==="u") e.preventDefault();
+if(e.key==="s") e.preventDefault();
+if(e.key==="p") e.preventDefault();
+if(e.key==="c") e.preventDefault();
+if(e.key==="x") e.preventDefault();
+if(e.key==="a") e.preventDefault();
+
+}
+
+// CTRL SHIFT
+if(e.ctrlKey && e.shiftKey){
+
+if(e.key==="I") e.preventDefault();
+if(e.key==="J") e.preventDefault();
+if(e.key==="C") e.preventDefault();
+
+}
+
+// MAC
+if(e.metaKey){
+
+if(e.key==="s") e.preventDefault();
+if(e.key==="p") e.preventDefault();
+if(e.key==="c") e.preventDefault();
+
+}
+
+});
+
+
+// detectar devtools
+let devtools = {open:false};
+
+setInterval(function(){
+
+let widthThreshold = window.outerWidth - window.innerWidth > 160;
+let heightThreshold = window.outerHeight - window.innerHeight > 160;
+
+if(widthThreshold || heightThreshold){
+
+if(!devtools.open){
+
+devtools.open = true;
+
+document.body.innerHTML = `
+<h1 style="color:red;text-align:center;margin-top:40vh;font-family:sans-serif">
+ACCESS BLOCKED
+</h1>
+`;
+
+}
+
+}
+
+},500);
+
+
+// bloquear fetch externo
+const originalFetch = window.fetch;
+
+window.fetch = function(url,options){
+
+if(!url.includes(location.hostname)){
+throw new Error("External requests blocked");
+}
+
+return originalFetch(url,options);
+
+};
+
+
+// bloquear XHR externo
+const open = XMLHttpRequest.prototype.open;
+
+XMLHttpRequest.prototype.open = function(method,url){
+
+if(!url.includes(location.hostname)){
+throw new Error("External request blocked");
+}
+
+return open.apply(this,arguments);
+
+};
+
+</script>
+
+  
 </html>
+
 
 
 

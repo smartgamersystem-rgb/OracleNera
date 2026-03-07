@@ -224,17 +224,23 @@ function mostrar(){
     });
 }
 
-/* INTERPRETAR */
-
 function interpretar(){
-    let pregunta=document.getElementById("pregunta").value;
-    let resultado=document.getElementById("resultado");
 
-    let lineas = tiradaActual.map(c=>idioma=="ES"?nombresES[c-1]:nombresEN[c-1]).join("\n");
+let pregunta=document.getElementById("pregunta").value;
+let resultado=document.getElementById("resultado");
 
-    resultado.innerText =
-    (idioma=="ES"?"Interpreta lectura resumen directo de la pregunta y consejo\n":"Interpret reading summary and advice\n")
-    + pregunta + "\n" + lineas;
+let nombres = idioma=="ES" ? nombresES : nombresEN;
+
+let cartasTexto = tiradaActual.map(c => nombres[c-1]).join("\n");
+
+let texto =
+(idioma=="ES"
+? "Interpreta lectura resumen directo de la pregunta y consejo\n"
+: "Interpret reading summary and advice\n")
++ pregunta + "\n\n" + cartasTexto;
+
+resultado.innerText = texto;
+
 }
 
 /* COPIAR */
@@ -279,3 +285,4 @@ if(e.ctrlKey && e.keyCode==85){return false;}
 
 </body>
 </html>
+

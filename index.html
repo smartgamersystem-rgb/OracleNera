@@ -293,15 +293,20 @@ setTimeout(()=>{nombre.style.display="block";},5000);
 
 function interpretar(){
 
-let pregunta=document.getElementById("pregunta").value;
+if(seleccion.length!==3){
+alert(idioma=="ES"?"Selecciona 3 cartas":"Select 3 cards");
+return;
+}
 
-let resultado=document.getElementById("resultado");
+let cartasNombre = seleccion.map(c =>
+idioma=="ES" ? cartasES[c] : cartasEN[c]
+);
 
-let texto=(idioma=="ES")?
-"Interpreta lectura resumen directo de la pregunta y consejo\n":
-"Interpret reading summary and advice\n";
+let texto = idioma=="ES"
+? `Interpreta esta tirada de tarot Rider-Waite: ${cartasNombre.join(", ")}`
+: `Interpret this Rider-Waite tarot spread: ${cartasNombre.join(", ")}`;
 
-resultado.innerText = texto + pregunta + "\n" + tiradaActual.join(", ");
+window.open("https://chat.openai.com/?prompt="+encodeURIComponent(texto),"_blank");
 
 }
 
@@ -373,5 +378,6 @@ instrucciones();
 
 </body>
 </html>
+
 
 

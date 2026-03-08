@@ -9,12 +9,30 @@
 
 <style>
 
+  .contenedor{
+
+width:95%;
+max-width:1200px;
+
+margin:auto;
+padding:20px;
+
+background:rgba(0,0,0,0.55);
+
+border-radius:20px;
+
+box-shadow:
+0 0 40px rgba(0,0,0,.8),
+0 0 20px rgba(255,215,0,.3);
+
+}
+
 body{
 margin:0;
 font-family:'Cinzel',serif;
 
 background-image:url("nera.jpg");
-background-position:center;
+background-position:center 30%;
 background-size:cover;
 background-repeat:no-repeat;
 background-attachment:fixed;
@@ -195,6 +213,24 @@ pointer-events:none;
 }
 
 </style>
+@media (max-width:900px){
+
+.grid3{grid-template-columns:repeat(3,110px);}
+.grid5{grid-template-columns:repeat(3,110px);}
+.grid10{grid-template-columns:repeat(4,100px);}
+.grid78{grid-template-columns:repeat(5,80px);}
+
+.carta{
+width:100px;
+height:180px;
+}
+
+.carta img{
+height:150px;
+}
+
+}
+
 </head>
 
 <body>
@@ -556,6 +592,13 @@ return open.apply(this,arguments);
 
   
 </html>
+
+
+
+
+
+
+
 
 
 

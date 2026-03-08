@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NERA Tarot 2026</title>
@@ -54,7 +53,7 @@ transition:.4s;
 right:0;
 }
 
-#menu input,#menu select,#menu button{
+#menu button,#menu select{
 width:100%;
 margin:6px 0;
 padding:10px;
@@ -62,6 +61,7 @@ background:black;
 color:gold;
 border:1px solid gold;
 font-family:'Cinzel';
+cursor:pointer;
 }
 
 /* CARTAS */
@@ -81,7 +81,6 @@ margin-top:40px;
 .carta{
 width:140px;
 height:240px;
-position:relative;
 }
 
 .carta img{
@@ -96,6 +95,8 @@ margin-top:5px;
 display:none;
 }
 
+/* RESULTADO */
+
 #resultado{
 margin:30px auto;
 width:80%;
@@ -108,8 +109,10 @@ white-space:pre-line;
 font-size:18px;
 }
 
+/* PREGUNTA */
+
 #pregunta{
-margin-top:30px;
+margin-top:40px;
 padding:12px;
 font-size:18px;
 background:black;
@@ -117,6 +120,8 @@ color:gold;
 border:2px solid gold;
 width:320px;
 }
+
+/* INSTRUCCIONES */
 
 #instrucciones{
 width:90%;
@@ -129,6 +134,7 @@ color:white;
 padding:15px;
 text-align:left;
 font-size:14px;
+line-height:1.4;
 }
 
 </style>
@@ -166,6 +172,8 @@ font-size:14px;
 <div id="instrucciones"></div>
 
 <script>
+
+/* MENU */
 
 function toggleMenu(){
 document.getElementById("menu").classList.toggle("abierto");
@@ -214,58 +222,78 @@ const nombresEN=[
 "Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
 ];
 
+/* FUNCIONES */
+
 function tirar(){
 
 let n=parseInt(document.getElementById("tirada").value);
+
 let deck=[...Array(78).keys()].map(x=>x+1);
 
 tiradaActual=[];
 
 for(let i=0;i<n;i++){
+
 let r=Math.floor(Math.random()*deck.length);
+
 tiradaActual.push(deck[r]);
+
 deck.splice(r,1);
+
 }
 
 mostrar();
+
 }
 
 function mostrar(){
 
 let cont=document.getElementById("cartas");
+
 cont.innerHTML="";
 
 let n=tiradaActual.length;
 
-if(n==3)cont.className="grid3";
-if(n==5)cont.className="grid5";
-if(n==10)cont.className="grid10";
-if(n==78)cont.className="grid78";
+cont.className="";
+
+if(n==3)cont.classList.add("grid3");
+if(n==5)cont.classList.add("grid5");
+if(n==10)cont.classList.add("grid10");
+if(n==78)cont.classList.add("grid78");
 
 tiradaActual.forEach(c=>{
 
 let div=document.createElement("div");
+
 div.className="carta";
 
 let img=document.createElement("img");
+
 img.src=c+".jpg";
 
 let nombre=document.createElement("div");
+
 nombre.className="nombreCarta";
+
 nombre.innerText=(idioma=="ES")?nombresES[c-1]:nombresEN[c-1];
 
 div.appendChild(img);
+
 div.appendChild(nombre);
+
 cont.appendChild(div);
 
-setTimeout(()=>{nombre.style.display="block"},2000);
+setTimeout(()=>{nombre.style.display="block";},2000);
 
 });
+
 }
 
 function interpretar(){
 
 let pregunta=document.getElementById("pregunta").value;
+
+let resultado=document.getElementById("resultado");
 
 let texto=(idioma=="ES")?
 "Interpreta lectura resumen directo de la pregunta y consejo\n":
@@ -273,31 +301,47 @@ let texto=(idioma=="ES")?
 
 let nombres = tiradaActual.map(c=>idioma=="ES"?nombresES[c-1]:nombresEN[c-1]);
 
-document.getElementById("resultado").innerText =
-texto + pregunta + "\n" + nombres.join(", ");
+resultado.innerText = texto + pregunta + "\n" + nombres.join(", ");
 
 }
 
 function copiarResultado(){
-navigator.clipboard.writeText(document.getElementById("resultado").innerText);
-alert("Copiado");
+
+let contenido=document.getElementById("resultado").innerText;
+
+navigator.clipboard.writeText(contenido);
+
+alert(idioma=="ES"?"Resultado copiado":"Result copied");
+
 }
 
 function resetear(){
+
 tiradaActual=[];
+
 document.getElementById("cartas").innerHTML="";
+
 document.getElementById("resultado").innerHTML="";
+
 }
 
 function traducir(){
 
-idioma=(idioma=="ES")?"EN":"ES";
+idioma = (idioma=="ES") ? "EN" : "ES";
 
 document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
+
 document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
+
 document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
+
 document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
+
 document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
+
+instrucciones();
+
+}
 
 function instrucciones(){
 

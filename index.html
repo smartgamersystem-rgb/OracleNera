@@ -25,7 +25,7 @@ text-shadow:0 0 20px gold;
 margin-top:40px;
 }
 
-/* MENU DERECHO */
+/* MENU */
 
 #menuBtn{
 position:fixed;
@@ -48,16 +48,13 @@ background:rgba(0,0,0,.95);
 border-left:2px solid gold;
 padding:20px;
 transition:.4s;
-z-index:1000;
 }
 
 #menu.abierto{
 right:0;
 }
 
-#menu input,
-#menu select,
-#menu button{
+#menu input,#menu select,#menu button{
 width:100%;
 margin:6px 0;
 padding:10px;
@@ -85,33 +82,17 @@ margin-top:40px;
 width:140px;
 height:240px;
 position:relative;
-overflow:hidden;
 }
 
 .carta img{
 width:100%;
 height:200px;
 border-radius:20px;
-display:block;
-}
-
-.sombraCarta{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:200px;
-background:black;
-border-radius:20px;
-animation:revelarCarta 1s forwards;
-animation-delay:5s;
 }
 
 .nombreCarta{
 font-size:14px;
 margin-top:5px;
-color:#FFD700;
-font-weight:700;
 display:none;
 }
 
@@ -127,13 +108,8 @@ white-space:pre-line;
 font-size:18px;
 }
 
-/* PREGUNTA ABAJO */
-
-#preguntaBox{
-margin-top:40px;
-}
-
 #pregunta{
+margin-top:30px;
 padding:12px;
 font-size:18px;
 background:black;
@@ -141,8 +117,6 @@ color:gold;
 border:2px solid gold;
 width:320px;
 }
-
-/* INSTRUCCIONES */
 
 #instrucciones{
 width:90%;
@@ -155,38 +129,6 @@ color:white;
 padding:15px;
 text-align:left;
 font-size:14px;
-line-height:1.4;
-}
-
-/* EFECTOS */
-
-.carta::after{
-content:"";
-position:absolute;
-top:-10px;
-left:-10px;
-width:160%;
-height:220px;
-background:radial-gradient(circle,rgba(255,215,0,.9),rgba(255,215,0,.3),transparent 70%);
-animation:rayosMagicos 0.4s infinite alternate;
-pointer-events:none;
-}
-
-@keyframes rayosMagicos{
-0%{opacity:.2;filter:blur(2px);}
-100%{opacity:.9;filter:blur(6px);}
-}
-
-@keyframes torbellinoMagico{
-0%{transform:translateX(-600px) rotate(0) scale(.2);opacity:0}
-25%{transform:translateX(-200px) rotate(720deg) scale(.5);opacity:.5}
-50%{transform:translateX(200px) rotate(1440deg) scale(.8);opacity:.8}
-100%{transform:translateX(0) rotate(3600deg) scale(1);opacity:1}
-}
-
-@keyframes revelarCarta{
-0%{opacity:1;}
-100%{opacity:0;}
 }
 
 </style>
@@ -217,17 +159,13 @@ pointer-events:none;
 
 <div id="cartas"></div>
 
-<div id="resultado"></div>
-
-<div id="preguntaBox">
 <input id="pregunta" placeholder="Escribe tu pregunta">
-</div>
+
+<div id="resultado"></div>
 
 <div id="instrucciones"></div>
 
 <script>
-
-/* MENU */
 
 function toggleMenu(){
 document.getElementById("menu").classList.toggle("abierto");
@@ -239,7 +177,6 @@ let tiradaActual=[];
 /* NOMBRES CARTAS */
 
 const nombresES=[
-
 "El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante",
 "Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna",
 "La Justicia","El Colgado","La Muerte","La Templanza","El Diablo","La Torre",
@@ -256,11 +193,9 @@ const nombresES=[
 
 "As de Oros","Dos de Oros","Tres de Oros","Cuatro de Oros","Cinco de Oros","Seis de Oros","Siete de Oros","Ocho de Oros","Nueve de Oros","Diez de Oros",
 "Sota de Oros","Caballero de Oros","Reina de Oros","Rey de Oros"
-
 ];
 
 const nombresEN=[
-
 "The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant",
 "The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune",
 "Justice","The Hanged Man","Death","Temperance","The Devil","The Tower",
@@ -277,10 +212,7 @@ const nombresEN=[
 
 "Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles","Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles",
 "Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
-
 ];
-
-/* RESTO DE TU SCRIPT IGUAL */
 
 function tirar(){
 
@@ -290,15 +222,12 @@ let deck=[...Array(78).keys()].map(x=>x+1);
 tiradaActual=[];
 
 for(let i=0;i<n;i++){
-
 let r=Math.floor(Math.random()*deck.length);
 tiradaActual.push(deck[r]);
 deck.splice(r,1);
-
 }
 
 mostrar();
-
 }
 
 function mostrar(){
@@ -307,12 +236,11 @@ let cont=document.getElementById("cartas");
 cont.innerHTML="";
 
 let n=tiradaActual.length;
-cont.className="";
 
-if(n==3)cont.classList.add("grid3");
-if(n==5)cont.classList.add("grid5");
-if(n==10)cont.classList.add("grid10");
-if(n==78)cont.classList.add("grid78");
+if(n==3)cont.className="grid3";
+if(n==5)cont.className="grid5";
+if(n==10)cont.className="grid10";
+if(n==78)cont.className="grid78";
 
 tiradaActual.forEach(c=>{
 
@@ -322,33 +250,22 @@ div.className="carta";
 let img=document.createElement("img");
 img.src=c+".jpg";
 
-let sombra=document.createElement("div");
-sombra.className="sombraCarta";
-
 let nombre=document.createElement("div");
 nombre.className="nombreCarta";
-
 nombre.innerText=(idioma=="ES")?nombresES[c-1]:nombresEN[c-1];
 
 div.appendChild(img);
-div.appendChild(sombra);
 div.appendChild(nombre);
-
 cont.appendChild(div);
 
-div.style.animation="torbellinoMagico 5s forwards";
-
-setTimeout(()=>{nombre.style.display="block";},5000);
+setTimeout(()=>{nombre.style.display="block"},2000);
 
 });
-
 }
 
 function interpretar(){
 
 let pregunta=document.getElementById("pregunta").value;
-
-let resultado=document.getElementById("resultado");
 
 let texto=(idioma=="ES")?
 "Interpreta lectura resumen directo de la pregunta y consejo\n":
@@ -356,42 +273,31 @@ let texto=(idioma=="ES")?
 
 let nombres = tiradaActual.map(c=>idioma=="ES"?nombresES[c-1]:nombresEN[c-1]);
 
-resultado.innerText = texto + pregunta + "\n" + nombres.join(", ");
+document.getElementById("resultado").innerText =
+texto + pregunta + "\n" + nombres.join(", ");
 
 }
 
 function copiarResultado(){
-
-let contenido=document.getElementById("resultado").innerText;
-
-navigator.clipboard.writeText(contenido);
-
-alert(idioma=="ES"?"Resultado copiado":"Result copied");
-
+navigator.clipboard.writeText(document.getElementById("resultado").innerText);
+alert("Copiado");
 }
 
 function resetear(){
-
 tiradaActual=[];
 document.getElementById("cartas").innerHTML="";
 document.getElementById("resultado").innerHTML="";
-
 }
 
 function traducir(){
 
-idioma = (idioma=="ES") ? "EN" : "ES";
+idioma=(idioma=="ES")?"EN":"ES";
 
 document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
 document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
 document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
 document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
 document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
-
-mostrar();
-instrucciones();
-
-}
 
 function instrucciones(){
 
@@ -427,5 +333,3 @@ instrucciones();
 
 </body>
 </html>
-
-

@@ -223,35 +223,26 @@ const nombresEN=[
 ];
 
 function tirar(){
-
 let n=parseInt(document.getElementById("tirada").value);
-
 let deck=[...Array(78).keys()].map(x=>x+1);
 
 tiradaActual=[];
 
 for(let i=0;i<n;i++){
-
 let r=Math.floor(Math.random()*deck.length);
-
 tiradaActual.push(deck[r]);
-
 deck.splice(r,1);
-
 }
 
 mostrar();
-
 }
 
 function mostrar(){
 
 let cont=document.getElementById("cartas");
-
 cont.innerHTML="";
 
 let n=tiradaActual.length;
-
 cont.className="";
 
 if(n==3)cont.classList.add("grid3");
@@ -283,16 +274,16 @@ cont.appendChild(div);
 
 div.style.animation="torbellinoMagico 5s forwards";
 
-setTimeout(()=>{nombre.style.display="block";},5000);
+setTimeout(()=>{
+nombre.style.display="block";
+},5000);
 
 });
-
 }
 
 function interpretar(){
 
 let pregunta=document.getElementById("pregunta").value;
-
 let resultado=document.getElementById("resultado");
 
 let texto=(idioma=="ES")?
@@ -308,7 +299,6 @@ resultado.innerText = texto + pregunta + "\n" + nombres.join(", ");
 function copiarResultado(){
 
 let contenido=document.getElementById("resultado").innerText;
-
 navigator.clipboard.writeText(contenido);
 
 alert(idioma=="ES"?"Resultado copiado":"Result copied");
@@ -372,4 +362,3 @@ instrucciones();
 
 </body>
 </html>
-

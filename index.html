@@ -33,15 +33,57 @@ margin:5px;
 font-family:'Cinzel';
 }
 
-button{
-padding:10px 18px;
-margin:5px;
+.botonera{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:12px;
+margin-top:15px;
+}
+
+.btnTarot{
+
+padding:12px 24px;
 font-size:16px;
-background:#111;
-color:gold;
-border:1px solid gold;
+
+background:linear-gradient(145deg,#111,#000);
+color:#FFD700;
+
+border:2px solid #FFD700;
+border-radius:30px;
+
+font-family:'Cinzel',serif;
+
 cursor:pointer;
-font-family:'Cinzel';
+
+box-shadow:
+0 0 10px rgba(255,215,0,.4),
+inset 0 0 10px rgba(255,215,0,.2);
+
+transition:all .3s ease;
+
+letter-spacing:1px;
+}
+
+.btnTarot:hover{
+
+transform:translateY(-3px) scale(1.05);
+
+background:linear-gradient(145deg,#000,#222);
+
+box-shadow:
+0 0 20px rgba(255,215,0,.9),
+0 0 40px rgba(255,215,0,.6);
+
+}
+
+.btnTarot:active{
+
+transform:scale(.95);
+
+box-shadow:
+0 0 5px rgba(255,215,0,.5);
+
 }
 
 #cartas{
@@ -165,10 +207,14 @@ pointer-events:none;
 
 <br>
 
-<button id="btnTirar" onclick="tirar()">Tirar Cartas</button>
-<button id="btnInterpretar" onclick="interpretar()">Interpretar</button>
-<button id="btnReset" onclick="resetear()">Resetear Lectura</button>
-<button onclick="traducir()">Español / English</button>
+<div class="botonera">
+
+<button class="btnTarot" id="btnTirar" onclick="tirar()">Tirar Cartas</button>
+<button class="btnTarot" id="btnInterpretar" onclick="interpretar()">Interpretar</button>
+<button class="btnTarot" id="btnReset" onclick="resetear()">Resetear Lectura</button>
+<button class="btnTarot" onclick="traducir()">Español / English</button>
+
+</div>
 
 <div id="cartas"></div>
 <div id="resultado"></div>
@@ -503,6 +549,7 @@ return open.apply(this,arguments);
 
   
 </html>
+
 
 
 

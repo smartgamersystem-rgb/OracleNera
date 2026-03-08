@@ -451,19 +451,25 @@ if(widthThreshold || heightThreshold){
 
 if(!devtools.open){
 
-devtools.open = true;
+let devtoolsOpen = false;
 
-document.body.innerHTML = `
-<h1 style="color:red;text-align:center;margin-top:40vh;font-family:sans-serif">
-ACCESS BLOCKED
-</h1>
-`;
+setInterval(function(){
+
+let widthThreshold = window.outerWidth - window.innerWidth > 300;
+let heightThreshold = window.outerHeight - window.innerHeight > 300;
+
+if(widthThreshold || heightThreshold){
+
+if(!devtoolsOpen){
+
+devtoolsOpen = true;
+console.warn("DevTools detected");
 
 }
 
 }
 
-},500);
+},1000);
 
 
 // bloquear fetch externo
@@ -497,6 +503,7 @@ return open.apply(this,arguments);
 
   
 </html>
+
 
 
 

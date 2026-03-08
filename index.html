@@ -344,10 +344,88 @@ setTimeout(()=>{nombre.style.display="block";},5000);
 
 }
 
-/* resto igual */
+function interpretar(){
+
+let pregunta=document.getElementById("pregunta").value;
+
+let resultado=document.getElementById("resultado");
+
+let texto=(idioma=="ES")?
+"Interpreta lectura resumen directo de la pregunta y consejo\n":
+"Interpret reading summary and advice\n";
+
+let nombres = tiradaActual.map(c=>idioma=="ES"?nombresES[c-1]:nombresEN[c-1]);
+
+resultado.innerText = texto + pregunta + "\n" + nombres.join(", ");
+
+}
+
+function copiarResultado(){
+
+let contenido=document.getElementById("resultado").innerText;
+
+navigator.clipboard.writeText(contenido);
+
+alert(idioma=="ES"?"Resultado copiado":"Result copied");
+
+}
+
+function resetear(){
+
+tiradaActual=[];
+document.getElementById("cartas").innerHTML="";
+document.getElementById("resultado").innerHTML="";
+
+}
+
+function traducir(){
+
+idioma = (idioma=="ES") ? "EN" : "ES";
+
+document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
+document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
+document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
+document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
+document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
+
+mostrar();
+instrucciones();
+
+}
+
+function instrucciones(){
+
+if(idioma=="ES"){
+
+document.getElementById("instrucciones").innerHTML=
+`Click Interpretar:
+1. Copia el resultado de arriba.
+2. Ve a chat.openai.com en modo incógnito o sin cuenta.
+3. Pega el resultado.
+4. No es lo mismo consultar ChatGPT directo porque no tiene alma; primero usa NERA Tarot para generar un cordón astral y tener un resultado.
+5. Cada lectura es única; repregunta al software si quieres que funcione correctamente.
+6. ChatGPT solo interpreta la energía del resultado de la web, no genera el resultado por sí mismo.`;
+
+}else{
+
+document.getElementById("instrucciones").innerHTML=
+`Click Interpret:
+1. Copy the result above.
+2. Go to chat.openai.com in incognito mode or without login.
+3. Paste the result.
+4. It is not the same to consult ChatGPT directly because it has no soul; first use NERA Tarot to generate an astral cord and obtain a result.
+5. Each reading is unique; ask the software again if you want it to work correctly.
+6. ChatGPT only interprets the energy of the result from the website; it does not generate the result itself.`;
+
+}
+
+}
+
+instrucciones();
 
 </script>
 
 </body>
 </html>
+
 

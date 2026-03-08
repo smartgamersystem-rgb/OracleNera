@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,56 +22,34 @@ overflow-x:hidden;
 h1{
 font-size:48px;
 text-shadow:0 0 20px gold;
-margin-top:40px;
 }
 
-/* MENU */
-
-#menuBtn{
-position:fixed;
-top:20px;
-right:20px;
+input,select{
+padding:10px;
+font-size:18px;
 background:black;
 color:gold;
 border:2px solid gold;
-padding:10px 20px;
-cursor:pointer;
-z-index:1000;
+margin:5px;
+font-family:'Cinzel';
 }
 
-#menu{
-position:fixed;
-top:70px;
-right:-260px;
-width:240px;
-background:rgba(0,0,0,.95);
-border-left:2px solid gold;
-padding:20px;
-transition:.4s;
-}
-
-#menu.abierto{
-right:0;
-}
-
-#menu button,#menu select{
-width:100%;
-margin:6px 0;
-padding:10px;
-background:black;
+button{
+padding:10px 18px;
+margin:5px;
+font-size:16px;
+background:#111;
 color:gold;
 border:1px solid gold;
-font-family:'Cinzel';
 cursor:pointer;
+font-family:'Cinzel';
 }
-
-/* CARTAS */
 
 #cartas{
 display:grid;
 justify-content:center;
 gap:20px;
-margin-top:40px;
+margin-top:30px;
 }
 
 .grid3{grid-template-columns:repeat(3,150px);}
@@ -81,21 +60,36 @@ margin-top:40px;
 .carta{
 width:140px;
 height:240px;
+position:relative;
+overflow:hidden;
 }
 
 .carta img{
 width:100%;
 height:200px;
 border-radius:20px;
+display:block;
+}
+
+.sombraCarta{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:200px;
+background:black;
+border-radius:20px;
+animation:revelarCarta 1s forwards;
+animation-delay:5s;
 }
 
 .nombreCarta{
 font-size:14px;
 margin-top:5px;
+color:#FFD700;
+font-weight:700;
 display:none;
 }
-
-/* RESULTADO */
 
 #resultado{
 margin:30px auto;
@@ -108,20 +102,6 @@ border-radius:12px;
 white-space:pre-line;
 font-size:18px;
 }
-
-/* PREGUNTA */
-
-#pregunta{
-margin-top:40px;
-padding:12px;
-font-size:18px;
-background:black;
-color:gold;
-border:2px solid gold;
-width:320px;
-}
-
-/* INSTRUCCIONES */
 
 #instrucciones{
 width:90%;
@@ -137,6 +117,35 @@ font-size:14px;
 line-height:1.4;
 }
 
+.carta::after{
+content:"";
+position:absolute;
+top:-10px;
+left:-10px;
+width:160%;
+height:220px;
+background:radial-gradient(circle,rgba(255,215,0,.9),rgba(255,215,0,.3),transparent 70%);
+animation:rayosMagicos 0.4s infinite alternate;
+pointer-events:none;
+}
+
+@keyframes rayosMagicos{
+0%{opacity:.2;filter:blur(2px);}
+100%{opacity:.9;filter:blur(6px);}
+}
+
+@keyframes torbellinoMagico{
+0%{transform:translateX(-600px) rotate(0) scale(.2);opacity:0}
+25%{transform:translateX(-200px) rotate(720deg) scale(.5);opacity:.5}
+50%{transform:translateX(200px) rotate(1440deg) scale(.8);opacity:.8}
+100%{transform:translateX(0) rotate(3600deg) scale(1);opacity:1}
+}
+
+@keyframes revelarCarta{
+0%{opacity:1;}
+100%{opacity:0;}
+}
+
 </style>
 </head>
 
@@ -144,9 +153,9 @@ line-height:1.4;
 
 <h1>NERA Tarot</h1>
 
-<button id="menuBtn" onclick="toggleMenu()">☰ MENÚ</button>
+<input id="pregunta" placeholder="Escribe tu pregunta">
 
-<div id="menu">
+<br>
 
 <select id="tirada">
 <option value="3">3 Cartas</option>
@@ -155,34 +164,24 @@ line-height:1.4;
 <option value="78">78 Cartas</option>
 </select>
 
+<br>
+
 <button id="btnTirar" onclick="tirar()">Tirar Cartas</button>
 <button id="btnInterpretar" onclick="interpretar()">Interpretar</button>
 <button id="btnReset" onclick="resetear()">Resetear Lectura</button>
 <button onclick="traducir()">Español / English</button>
-<button id="btnCopiar" onclick="copiarResultado()">Copiar Resultado</button>
-
-</div>
 
 <div id="cartas"></div>
-
-<input id="pregunta" placeholder="Escribe tu pregunta">
-
 <div id="resultado"></div>
+
+<button id="btnCopiar" onclick="copiarResultado()">Copiar Resultado</button>
 
 <div id="instrucciones"></div>
 
 <script>
 
-/* MENU */
-
-function toggleMenu(){
-document.getElementById("menu").classList.toggle("abierto");
-}
-
 let idioma="ES";
 let tiradaActual=[];
-
-/* NOMBRES CARTAS */
 
 const nombresES=[
 "El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante",
@@ -221,8 +220,6 @@ const nombresEN=[
 "Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles","Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles",
 "Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
 ];
-
-/* FUNCIONES */
 
 function tirar(){
 
@@ -264,26 +261,28 @@ if(n==78)cont.classList.add("grid78");
 tiradaActual.forEach(c=>{
 
 let div=document.createElement("div");
-
 div.className="carta";
 
 let img=document.createElement("img");
-
 img.src=c+".jpg";
 
-let nombre=document.createElement("div");
+let sombra=document.createElement("div");
+sombra.className="sombraCarta";
 
+let nombre=document.createElement("div");
 nombre.className="nombreCarta";
 
 nombre.innerText=(idioma=="ES")?nombresES[c-1]:nombresEN[c-1];
 
 div.appendChild(img);
-
+div.appendChild(sombra);
 div.appendChild(nombre);
 
 cont.appendChild(div);
 
-setTimeout(()=>{nombre.style.display="block";},2000);
+div.style.animation="torbellinoMagico 5s forwards";
+
+setTimeout(()=>{nombre.style.display="block";},5000);
 
 });
 
@@ -318,9 +317,7 @@ alert(idioma=="ES"?"Resultado copiado":"Result copied");
 function resetear(){
 
 tiradaActual=[];
-
 document.getElementById("cartas").innerHTML="";
-
 document.getElementById("resultado").innerHTML="";
 
 }
@@ -330,15 +327,12 @@ function traducir(){
 idioma = (idioma=="ES") ? "EN" : "ES";
 
 document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
-
 document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
-
 document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
-
 document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
-
 document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
 
+mostrar();
 instrucciones();
 
 }
@@ -348,23 +342,23 @@ function instrucciones(){
 if(idioma=="ES"){
 
 document.getElementById("instrucciones").innerHTML=
-`Click Interpretar:
-1. Copia el resultado de arriba.
-2. Ve a chat.openai.com en modo incógnito o sin cuenta.
-3. Pega el resultado.
-4. No es lo mismo consultar ChatGPT directo porque no tiene alma; primero usa NERA Tarot para generar un cordón astral y tener un resultado.
-5. Cada lectura es única; repregunta al software si quieres que funcione correctamente.
+`Click Interpretar:<br>
+1. Copia el resultado de arriba.<br>
+2. Ve a chat.openai.com en modo incógnito o sin cuenta.<br>
+3. Pega el resultado.<br>
+4. No es lo mismo consultar ChatGPT directo porque no tiene alma; primero usa NERA Tarot para generar un cordón astral y tener un resultado.<br>
+5. Cada lectura es única; repregunta al software si quieres que funcione correctamente.<br>
 6. ChatGPT solo interpreta la energía del resultado de la web, no genera el resultado por sí mismo.`;
 
 }else{
 
 document.getElementById("instrucciones").innerHTML=
-`Click Interpret:
-1. Copy the result above.
-2. Go to chat.openai.com in incognito mode or without login.
-3. Paste the result.
-4. It is not the same to consult ChatGPT directly because it has no soul; first use NERA Tarot to generate an astral cord and obtain a result.
-5. Each reading is unique; ask the software again if you want it to work correctly.
+`Click Interpret:<br>
+1. Copy the result above.<br>
+2. Go to chat.openai.com in incognito mode or without login.<br>
+3. Paste the result.<br>
+4. It is not the same to consult ChatGPT directly because it has no soul; first use NERA Tarot to generate an astral cord and obtain a result.<br>
+5. Each reading is unique; ask the software again if you want it to work correctly.<br>
 6. ChatGPT only interprets the energy of the result from the website; it does not generate the result itself.`;
 
 }

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NERA Tarot 2026</title>
@@ -9,7 +11,28 @@
 
 <style>
 
-  .contenedor{
+body{
+
+margin:0;
+font-family:'Cinzel',serif;
+
+background-image:url("gitana_tarot.jpg");
+background-position:center;
+background-size:cover;
+background-repeat:no-repeat;
+background-attachment:fixed;
+
+color:#FFD700;
+text-align:center;
+
+min-height:100vh;
+
+display:flex;
+justify-content:center;
+
+}
+
+.contenedor{
 
 width:95%;
 max-width:1200px;
@@ -17,7 +40,7 @@ max-width:1200px;
 margin:auto;
 padding:20px;
 
-background:rgba(0,0,0,0.55);
+background:rgba(0,0,0,0.65);
 
 border-radius:20px;
 
@@ -27,43 +50,37 @@ box-shadow:
 
 }
 
-body{
-margin:0;
-font-family:'Cinzel',serif;
-
-background-image:url("nera.jpg");
-background-position:center 30%;
-background-size:cover;
-background-repeat:no-repeat;
-background-attachment:fixed;
-
-color:#FFD700;
-text-align:center;
-overflow-x:hidden;
-min-height:100vh;
-}
-
 h1{
+
 font-size:48px;
 text-shadow:0 0 20px gold;
+
 }
 
 input,select{
+
 padding:10px;
 font-size:18px;
+
 background:black;
 color:gold;
+
 border:2px solid gold;
 margin:5px;
+
 font-family:'Cinzel';
+
 }
 
 .botonera{
+
 display:flex;
 justify-content:center;
 flex-wrap:wrap;
 gap:12px;
+
 margin-top:15px;
+
 }
 
 .btnTarot{
@@ -77,8 +94,6 @@ color:#FFD700;
 border:2px solid #FFD700;
 border-radius:30px;
 
-font-family:'Cinzel',serif;
-
 cursor:pointer;
 
 box-shadow:
@@ -88,6 +103,7 @@ inset 0 0 10px rgba(255,215,0,.2);
 transition:all .3s ease;
 
 letter-spacing:1px;
+
 }
 
 .btnTarot:hover{
@@ -106,16 +122,15 @@ box-shadow:
 
 transform:scale(.95);
 
-box-shadow:
-0 0 5px rgba(255,215,0,.5);
-
 }
 
 #cartas{
+
 display:grid;
 justify-content:center;
 gap:20px;
 margin-top:30px;
+
 }
 
 .grid3{grid-template-columns:repeat(3,150px);}
@@ -124,95 +139,141 @@ margin-top:30px;
 .grid78{grid-template-columns:repeat(7,100px);}
 
 .carta{
+
 width:140px;
 height:240px;
 position:relative;
-overflow:hidden;
+
 }
 
 .carta img{
+
 width:100%;
 height:200px;
 border-radius:20px;
-display:block;
+
 }
 
 .sombraCarta{
+
 position:absolute;
+
 top:0;
 left:0;
+
 width:100%;
 height:200px;
+
 background:black;
+
 border-radius:20px;
+
 animation:revelarCarta 1s forwards;
 animation-delay:5s;
+
 }
 
 .nombreCarta{
+
 font-size:14px;
 margin-top:5px;
+
 color:#FFD700;
 font-weight:700;
+
 display:none;
+
 }
 
 #resultado{
+
 margin:30px auto;
+
 width:80%;
 max-width:900px;
+
 background:#1a1a1a;
+
 color:white;
+
 padding:20px;
+
 border-radius:12px;
+
 white-space:pre-line;
 font-size:18px;
+
 }
 
 #instrucciones{
+
 width:90%;
 max-width:900px;
+
 margin:40px auto;
+
 background:rgba(0,0,0,0.8);
+
 border:2px solid gold;
+
 border-radius:12px;
+
 color:white;
+
 padding:15px;
+
 text-align:left;
 font-size:14px;
+
 line-height:1.4;
+
 }
 
 .carta::after{
+
 content:"";
+
 position:absolute;
+
 top:-10px;
 left:-10px;
+
 width:160%;
 height:220px;
+
 background:radial-gradient(circle,rgba(255,215,0,.9),rgba(255,215,0,.3),transparent 70%);
-animation:rayosMagicos 0.4s infinite alternate;
+
+animation:rayosMagicos .4s infinite alternate;
+
 pointer-events:none;
+
 }
 
 @keyframes rayosMagicos{
+
 0%{opacity:.2;filter:blur(2px);}
 100%{opacity:.9;filter:blur(6px);}
+
 }
 
 @keyframes torbellinoMagico{
+
 0%{transform:translateX(-600px) rotate(0) scale(.2);opacity:0}
 25%{transform:translateX(-200px) rotate(720deg) scale(.5);opacity:.5}
 50%{transform:translateX(200px) rotate(1440deg) scale(.8);opacity:.8}
 100%{transform:translateX(0) rotate(3600deg) scale(1);opacity:1}
+
 }
 
 @keyframes revelarCarta{
+
 0%{opacity:1;}
 100%{opacity:0;}
+
 }
 
-</style>
+/* MOBILE */
+
 @media (max-width:900px){
 
 .grid3{grid-template-columns:repeat(3,110px);}
@@ -221,19 +282,27 @@ pointer-events:none;
 .grid78{grid-template-columns:repeat(5,80px);}
 
 .carta{
+
 width:100px;
 height:180px;
+
 }
 
 .carta img{
+
 height:150px;
+
 }
 
 }
+
+</style>
 
 </head>
 
 <body>
+
+<div class="contenedor">
 
 <h1>NERA Tarot</h1>
 
@@ -248,70 +317,31 @@ height:150px;
 <option value="78">78 Cartas</option>
 </select>
 
-<br>
-
 <div class="botonera">
 
-<button class="btnTarot" id="btnTirar" onclick="tirar()">Tirar Cartas</button>
-<button class="btnTarot" id="btnInterpretar" onclick="interpretar()">Interpretar</button>
-<button class="btnTarot" id="btnReset" onclick="resetear()">Resetear Lectura</button>
+<button class="btnTarot" onclick="tirar()">Tirar Cartas</button>
+<button class="btnTarot" onclick="interpretar()">Interpretar</button>
+<button class="btnTarot" onclick="resetear()">Resetear Lectura</button>
 <button class="btnTarot" onclick="traducir()">Español / English</button>
 
 </div>
 
 <div id="cartas"></div>
+
 <div id="resultado"></div>
 
-<button id="btnCopiar" onclick="copiarResultado()">Copiar Resultado</button>
+<button class="btnTarot" onclick="copiarResultado()">Copiar Resultado</button>
 
 <div id="instrucciones"></div>
+
+</div>
 
 <script>
 
 let idioma="ES";
 let tiradaActual=[];
 
-const nombresES=[
-
-"El Loco","El Mago","La Sacerdotisa","La Emperatriz","El Emperador","El Hierofante",
-"Los Enamorados","El Carro","La Fuerza","El Ermitaño","La Rueda de la Fortuna",
-"La Justicia","El Colgado","La Muerte","La Templanza","El Diablo","La Torre",
-"La Estrella","La Luna","El Sol","El Juicio","El Mundo",
-
-"As de Bastos","Dos de Bastos","Tres de Bastos","Cuatro de Bastos","Cinco de Bastos","Seis de Bastos","Siete de Bastos","Ocho de Bastos","Nueve de Bastos","Diez de Bastos",
-"Sota de Bastos","Caballero de Bastos","Reina de Bastos","Rey de Bastos",
-
-"As de Copas","Dos de Copas","Tres de Copas","Cuatro de Copas","Cinco de Copas","Seis de Copas","Siete de Copas","Ocho de Copas","Nueve de Copas","Diez de Copas",
-"Sota de Copas","Caballero de Copas","Reina de Copas","Rey de Copas",
-
-"As de Espadas","Dos de Espadas","Tres de Espadas","Cuatro de Espadas","Cinco de Espadas","Seis de Espadas","Siete de Espadas","Ocho de Espadas","Nueve de Espadas","Diez de Espadas",
-"Sota de Espadas","Caballero de Espadas","Reina de Espadas","Rey de Espadas",
-
-"As de Oros","Dos de Oros","Tres de Oros","Cuatro de Oros","Cinco de Oros","Seis de Oros","Siete de Oros","Ocho de Oros","Nueve de Oros","Diez de Oros",
-"Sota de Oros","Caballero de Oros","Reina de Oros","Rey de Oros"
-
-];
-
-const nombresEN=[
-
-"The Fool","The Magician","The High Priestess","The Empress","The Emperor","The Hierophant",
-"The Lovers","The Chariot","Strength","The Hermit","Wheel of Fortune",
-"Justice","The Hanged Man","Death","Temperance","The Devil","The Tower",
-"The Star","The Moon","The Sun","Judgement","The World",
-
-"Ace of Wands","Two of Wands","Three of Wands","Four of Wands","Five of Wands","Six of Wands","Seven of Wands","Eight of Wands","Nine of Wands","Ten of Wands",
-"Page of Wands","Knight of Wands","Queen of Wands","King of Wands",
-
-"Ace of Cups","Two of Cups","Three of Cups","Four of Cups","Five of Cups","Six of Cups","Seven of Cups","Eight of Cups","Nine of Cups","Ten of Cups",
-"Page of Cups","Knight of Cups","Queen of Cups","King of Cups",
-
-"Ace of Swords","Two of Swords","Three of Swords","Four of Swords","Five of Swords","Six of Swords","Seven of Swords","Eight of Swords","Nine of Swords","Ten of Swords",
-"Page of Swords","Knight of Swords","Queen of Swords","King of Swords",
-
-"Ace of Pentacles","Two of Pentacles","Three of Pentacles","Four of Pentacles","Five of Pentacles","Six of Pentacles","Seven of Pentacles","Eight of Pentacles","Nine of Pentacles","Ten of Pentacles",
-"Page of Pentacles","Knight of Pentacles","Queen of Pentacles","King of Pentacles"
-
-];
+/* TAROT */
 
 function tirar(){
 
@@ -341,15 +371,6 @@ let cont=document.getElementById("cartas");
 
 cont.innerHTML="";
 
-let n=tiradaActual.length;
-
-cont.className="";
-
-if(n==3)cont.classList.add("grid3");
-if(n==5)cont.classList.add("grid5");
-if(n==10)cont.classList.add("grid10");
-if(n==78)cont.classList.add("grid78");
-
 tiradaActual.forEach(c=>{
 
 let div=document.createElement("div");
@@ -364,7 +385,7 @@ sombra.className="sombraCarta";
 let nombre=document.createElement("div");
 nombre.className="nombreCarta";
 
-nombre.innerText=(idioma=="ES")?nombresES[c-1]:nombresEN[c-1];
+nombre.innerText="Carta "+c;
 
 div.appendChild(img);
 div.appendChild(sombra);
@@ -384,25 +405,21 @@ function interpretar(){
 
 let pregunta=document.getElementById("pregunta").value;
 
-let resultado=document.getElementById("resultado");
+document.getElementById("resultado").innerText=
 
-let texto=(idioma=="ES")?
-"Interpreta lectura resumen directo de la pregunta y consejo\n":
-"Interpret reading summary and advice\n";
-
-let nombres = tiradaActual.map(c=>idioma=="ES"?nombresES[c-1]:nombresEN[c-1]);
-
-resultado.innerText = texto + pregunta + "\n" + nombres.join(", ");
+"Interpreta lectura resumen directo de la pregunta y consejo\n"+
+pregunta+"\n"+
+tiradaActual.join(",");
 
 }
 
 function copiarResultado(){
 
-let contenido=document.getElementById("resultado").innerText;
+navigator.clipboard.writeText(
+document.getElementById("resultado").innerText
+);
 
-navigator.clipboard.writeText(contenido);
-
-alert(idioma=="ES"?"Resultado copiado":"Result copied");
+alert("Resultado copiado");
 
 }
 
@@ -416,195 +433,11 @@ document.getElementById("resultado").innerHTML="";
 
 function traducir(){
 
-idioma = (idioma=="ES") ? "EN" : "ES";
-
-document.getElementById("pregunta").placeholder=(idioma=="ES")?"Escribe tu pregunta":"Write your question";
-document.getElementById("btnTirar").innerText=(idioma=="ES")?"Tirar Cartas":"Draw Cards";
-document.getElementById("btnInterpretar").innerText=(idioma=="ES")?"Interpretar":"Interpret";
-document.getElementById("btnReset").innerText=(idioma=="ES")?"Resetear Lectura":"Reset Reading";
-document.getElementById("btnCopiar").innerText=(idioma=="ES")?"Copiar Resultado":"Copy Result";
-
-mostrar();
-instrucciones();
+alert("Modo bilingüe activo");
 
 }
-
-function instrucciones(){
-
-if(idioma=="ES"){
-
-document.getElementById("instrucciones").innerHTML=
-`Click Interpretar:<br>
-1. Copia el resultado de arriba.<br>
-2. Ve a chat.openai.com en modo incógnito o sin cuenta.<br>
-3. Pega el resultado.<br>
-4. No es lo mismo consultar ChatGPT directo porque no tiene alma; primero usa NERA Tarot para generar un cordón astral y tener un resultado.<br>
-5. Cada lectura es única; repregunta al software si quieres que funcione correctamente.<br>
-6. ChatGPT solo interpreta la energía del resultado de la web, no genera el resultado por sí mismo.`;
-
-}else{
-
-document.getElementById("instrucciones").innerHTML=
-`Click Interpret:<br>
-1. Copy the result above.<br>
-2. Go to chat.openai.com in incognito mode or without login.<br>
-3. Paste the result.<br>
-4. It is not the same to consult ChatGPT directly because it has no soul; first use NERA Tarot to generate an astral cord and obtain a result.<br>
-5. Each reading is unique; ask the software again if you want it to work correctly.<br>
-6. ChatGPT only interprets the energy of the result from the website; it does not generate the result itself.`;
-
-}
-
-}
-
-instrucciones();
 
 </script>
 
 </body>
-  <script>
-
-// bloquear iframe (anti embedding)
-if (window.top !== window.self) {
-document.body.innerHTML="";
-window.top.location = window.self.location;
-}
-
-// bloquear clic derecho
-document.addEventListener("contextmenu", e => e.preventDefault());
-
-// bloquear copiar
-document.addEventListener("copy", e => e.preventDefault());
-
-// bloquear cortar
-document.addEventListener("cut", e => e.preventDefault());
-
-// bloquear pegar
-document.addEventListener("paste", e => e.preventDefault());
-
-// bloquear arrastrar
-document.addEventListener("dragstart", e => e.preventDefault());
-
-// bloquear selección
-document.onselectstart = () => false;
-
-
-// bloquear teclas
-document.addEventListener("keydown", function(e){
-
-// F12
-if(e.key === "F12") e.preventDefault();
-
-// CTRL
-if(e.ctrlKey){
-
-if(e.key==="u") e.preventDefault();
-if(e.key==="s") e.preventDefault();
-if(e.key==="p") e.preventDefault();
-if(e.key==="c") e.preventDefault();
-if(e.key==="x") e.preventDefault();
-if(e.key==="a") e.preventDefault();
-
-}
-
-// CTRL SHIFT
-if(e.ctrlKey && e.shiftKey){
-
-if(e.key==="I") e.preventDefault();
-if(e.key==="J") e.preventDefault();
-if(e.key==="C") e.preventDefault();
-
-}
-
-// MAC
-if(e.metaKey){
-
-if(e.key==="s") e.preventDefault();
-if(e.key==="p") e.preventDefault();
-if(e.key==="c") e.preventDefault();
-
-}
-
-});
-
-
-// detectar devtools
-let devtools = {open:false};
-
-setInterval(function(){
-
-let widthThreshold = window.outerWidth - window.innerWidth > 160;
-let heightThreshold = window.outerHeight - window.innerHeight > 160;
-
-if(widthThreshold || heightThreshold){
-
-if(!devtools.open){
-
-let devtoolsOpen = false;
-
-setInterval(function(){
-
-let widthThreshold = window.outerWidth - window.innerWidth > 300;
-let heightThreshold = window.outerHeight - window.innerHeight > 300;
-
-if(widthThreshold || heightThreshold){
-
-if(!devtoolsOpen){
-
-devtoolsOpen = true;
-console.warn("DevTools detected");
-
-}
-
-}
-
-},1000);
-
-
-// bloquear fetch externo
-const originalFetch = window.fetch;
-
-window.fetch = function(url,options){
-
-if(!url.includes(location.hostname)){
-throw new Error("External requests blocked");
-}
-
-return originalFetch(url,options);
-
-};
-
-
-// bloquear XHR externo
-const open = XMLHttpRequest.prototype.open;
-
-XMLHttpRequest.prototype.open = function(method,url){
-
-if(!url.includes(location.hostname)){
-throw new Error("External request blocked");
-}
-
-return open.apply(this,arguments);
-
-};
-
-</script>
-
-  
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
